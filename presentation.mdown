@@ -1,12 +1,228 @@
-React and Om
+<!-- React and Om -->
+<!--  -->
+<!-- Although Facebook's React only plays the part of "V" in JavaScript MVC, it is making huge waves. Its virtual DOM offers a tremendous simplification of view rendering along with significant performance benefits. This talk will show how React's virtual DOM works, as well as introduce Om, a ClojureScript interface for React. By harnessing immutable persistent data structures, Om offers even faster performance than React. Thanks to its global app state, implementing undo becomes trivial. -->
+<!--  -->
 
-Although Facebook's React only plays the part of "V" in JavaScript MVC, it is making huge waves. Its virtual DOM offers a tremendous simplification of view rendering along with significant performance benefits. This talk will show how React's virtual DOM works, as well as introduce Om, a ClojureScript interface for React. By harnessing immutable persistent data structures, Om offers even faster performance than React. Thanks to its global app state, implementing undo becomes trivial.
+```
+var CommentBox = React.createClass({
+  render: function() {
+    return (
+      <div className="commentBox">
+        Hello, world! I am a CommentBox.
+      </div>
+    );
+  }
+});
+React.renderComponent(
+  <CommentBox />,
+  document.getElementById('content')
+);
+```
 
-# Paul Wittmann (@wakkahari)
-+ JavaScript & Ruby at Railslove
-+
+---
 
+```html
+<html>
+  <head>
+    <title>Hello React</title>
+    <script src="http://fb.me/react-0.11.2.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.11.2.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/jsx">
+      /** @jsx React.DOM */
+      // The above declaration must remain intact at the top of the script.
+      // Your code here
+    </script>
+  </body>
+</html>
+```
 
+---
+
+# React & Om
+
+???
+What's this guy even talking about? / TL;DR
+React: JS MVC by Facebook
+Om: ClojureScript interface for React
+
+---
+
+# Paul Wittmann 
++ JavaScript, Ruby & Clojure at Railslove
++ [@wakkahari](https://twitter.com/wakkahari)
+
+---
+
+.with-small-margins[
+### Omingard
+]
+
+<!-- <iframe width="100%" height="450" src="http://localhost:8888"></iframe> -->
+
+<iframe width="100%" src="//www.youtube.com/embed/r0u1IBr1apU" frameborder="0" allowfullscreen></iframe>
+
+---
+
++ not a tutorial
++ not actually about performance
+
+---
+
+### Overview
+# Two Simplifications in JS-MVC
+1. **Virtual DOM** (React)
+2. **immutable** persistent data structures (Om)
+
+???
+concepts and **ideas**
+
+---
+
+### Two Motivations
+.big[
+1. React & Om as interesting **JS-MVCs**
+2. Om as a gate opener into **Clojure**
+]
+
+???
+1.: today
+2.: alien technology, upcoming blog post
+
+---
+
+# What is _simple_?
+
+--
+
++ "What matters for simplicity is that there's **no interleaving**." (Rich Hickey)
+
+--
+
++ simple ≠ **familiar**
+
+???
++ **No interleaving**: piece of code with one concern or several concerns and ideas intertwined?
++ Virtual DOM is **unfamiliar**, but still simple.
++ French is easy and familiar to French children - doesn't mean it's simple.
+
+---
+
+# Goal
++ not prove how fast React is  
++ **but**
+
+> show ideas that are "making an entire family of common and tedious hand optimization techniques _obsolete_"
+  .small[
+    ["The Future of JavaScript MVC Frameworks" - David Nolen](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs)
+  ]
+
+???
+[Optimizing AngularJS: 1200ms to 35ms](http://blog.scalyr.com/2013/10/angularjs-1200ms-to-35ms)
+
+---
+
+# React & Om
+Not aiming for the best performance but,  
+**simple solutions** with reasonable performance out of the box.
+
+It just so happens that React is **bloody fast**.
+
+---
+
+# React
+
++ "A JavaScript Library for Building User Interfaces"
++ the **V** in JS-MVC
+
+---
+
+# React
+
++ released in May 2013
++ developed by Facebook
++ drives parts of Facebook, all of Instagram
++ Atom editor
+
+???
+Github's Atom editor switched to React to improve rendering performance; source: [http://blog.atom.io/2014/07/02/moving-atom-to-react.html](http://blog.atom.io/2014/07/02/moving-atom-to-react.html)
+
+---
+
+.with-small-margins[
+  # Killer Feature: Virtual DOM
+]
+
+---
+
++ normal JS-MVC:  
+  data -> template .red[->] DOM
+
+--
+
+.red[
+  ## BOTTLENECK!
+]
+
+--
+
++ React:  
+  data -> template -> virtual DOM .red[->] DOM
+
+---
+
+.with-small-margins[
+  # Virtual DOM in Action
+]
+
+![monkeys](images/monkeys_100_delay.gif)
+
+.small[
+  source: [http://joelburget.com/backbone-to-react](http://joelburget.com/backbone-to-react)
+]
+
+---
+
+# Virtual DOM 
++ precise DOM updates
++ re-render **everything**
+
+---
+
+.big[
+  "React's key design decision is to make the API seem like it re-renders the whole app on every update."
+]
+.small[
+  [https://facebook.github.io/react/docs/reconciliation.html](https://facebook.github.io/react/docs/reconciliation.html)
+]
+
+---
+
+.big[
+  data  
+  -> **all** templates  
+  -> virtual DOM  
+  .red[->] DOM  
+]
+
+???
+on **ANY** update of the data
+
+---
+
+often devs still approach performance of JS code as if they are riding a horse cart but the horse had long been replaced with fusion reactor  
+
+.small[
+  &mdash; Vyacheslav Egorov (@mraleph) <a href="https://twitter.com/mraleph/status/411549064787152896">December 13, 2013</a></blockquote>
+]
+
+???
+v8 compiler engineer
+
+---
 
 deliver competitive levels of component abstraction while making an entire family of common and tedious hand optimization techniques obsolete.
 
@@ -19,12 +235,8 @@ Witz an React
 + minimale DOM-Updates
 + Programmierer muss nicht darüber nachdenken wie diese zustande kommen - alles durch Virtual DOM abstrahiert und vereinfacht
 
+---
 
-# React
-drives parts of Facebook & all of Instagram
-kind of the "V" in MVC
-
-Github's Atom editor switched to React to improve rendering performance (http://blog.atom.io/2014/07/02/moving-atom-to-react.html)
 
 Nolen: "wrote it off"
 
@@ -179,11 +391,21 @@ http://www.creativeapplications.net/wp-content/uploads/2013/12/hypot.pnga
 persistent data structures example:
 http://www.creativeapplications.net/wp-content/uploads/2013/04/persistent.png
 
+---
 
 # LISP Macros
-+ http://sweetjs.org/
+key
 
-- - -
+---
+
+# Summary
+
+1. **Virtual DOM** (React)
+   - precise
+   - re-render everything
+2. **immutable** persistent data structures (Om)
+
+---
 
 # Links
 
@@ -191,7 +413,8 @@ http://www.creativeapplications.net/wp-content/uploads/2013/04/persistent.png
 
 # Further Reading
 
-https://github.com/Reactive-Extensions/RxJS
++ Macros in JavaScript: [http://sweetjs.org](http://sweetjs.org)
++ Reactive programming in JavaScript: [https://github.com/Reactive-Extensions/RxJS](https://github.com/Reactive-Extensions/RxJS) and [http://www.ractivejs.org](http://www.ractivejs.org)
 
 
 = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -204,7 +427,7 @@ Bonus Chapters
 "The art of programming is the art of organizing complexity, of mastering multitude and avoiding its bastard chaos as effectively as possible."
 - Dijkstra (1970) "Notes On Structured Programming
 
-"we should do (as wise programmers aware of our limitations) our utmost to shorten the conceptual gap between the static program and the dynamic process, to make the correspondence between the program (spread out in text space) and the process (spread out in time) as trivial as possible."
+"we should do (as wise programmers aware of our limitations) our utmost to shorten the conceptual gap between the static program and the dyervabelsnamic process, to make the correspondence between the program (spread out in text space) and the process (spread out in time) as trivial as possible."
 - Dijkstra (1968) "A Case against the GO TO Statement"
 -> processes are hard to predict, we need to model these processes as static programs, so we can reason about single snapshots in time.
 example:
@@ -216,6 +439,75 @@ example:
 solution so far (to turn process into static program): data binding! makes process a little more predictable.
 Data binding syncs state in your UI with state in yur data model so you don't have to.
 Pete Hunt sees data binding as a polyfill for reactive JavaScript/DOM.
+
+Data binding is a non-trivial abstraction and too leaky to be used by Facebook.
+Current data binding isn't simple - what does simple mean!?
+
+"What matters for simplicity is that there's no interleaving" (Rich Hickey)
+Piece of code: one concern or several concerns and ideas intertwined?
+Simple != familiar
+French is familiar to French speakers, doesn't mean it's simple
+
+Most common implementation of data binding:
+key-value observation (Ember, Backbone, Cocoa)
+observables: values that notify other parts of the system when they change.
+computed properties: composed of observables.
+
+Ember:
+special language to bind JavaScript objects to the DOM - handlebars; cannot be extended, you're caught in the DSL
+
+![leaky Ember](images/leaky_ember.png)
+
+Company:
+  score: ->
+    .property('upvotes', 'downvotes')
+App:
+  topCompanies: ->
+    .property('companies')
+
+the companies array isn't changing - the companies inside it are changing:
+    .property('companies.@each.upvotes', 'companies.@each.downvotes')
+this interleaves knownledge of the data binding abstraction with our app code. you need to know how the data binding works (how companies are ranked to update the list)
+have to look at topCompanies to know that it calls companies' score function, then look at that to know that it depends on a company's up and down votes.
+
+Ember user: totalVotes should have been a computed property
+
+-> "Intellectuals solve problems, geniuses prevent them." - Einstein
+
+Better: implicit KVO (Knockout, Meteor)
+example: date picker
+Enter a date:
+<select data-bind="value: month">
+  <option value="0">January</option>
+  ...
+</select>
+
+Date you entered:
+<span data-bind="text: formatDate(date())">
+
+JavaScript:
+function formatDate(d) {
+  return (
+    (d.getMonth() + 1) + '/' +
+    d.getDate() + '/' +
+    d.getFullYear()
+  );
+}
+
+function DatePickerModel() {
+  var currentDate = new Date();
+  this.month = ko.observable(currentDate.getMonth());
+  this.day =  ..
+  this.date = ko.copmuted(function() {
+    return new Date(
+      this.year(),
+      this.month(),
+      this.day()
+    );
+
+  }, this);
+}
+
 
 # Clojure: functional, LISP, immutable data structures, pragmatic etc.
 # core.async
