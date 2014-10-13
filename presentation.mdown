@@ -1,0 +1,225 @@
+React and Om
+
+Although Facebook's React only plays the part of "V" in JavaScript MVC, it is making huge waves. Its virtual DOM offers a tremendous simplification of view rendering along with significant performance benefits. This talk will show how React's virtual DOM works, as well as introduce Om, a ClojureScript interface for React. By harnessing immutable persistent data structures, Om offers even faster performance than React. Thanks to its global app state, implementing undo becomes trivial.
+
+# Paul Wittmann (@wakkahari)
++ JavaScript & Ruby at Railslove
++
+
+
+
+deliver competitive levels of component abstraction while making an entire family of common and tedious hand optimization techniques obsolete.
+
+Undo - schwer aus 2 Gründen:
+
+1. Historie von App-States nachzuhalten frisst schnell viel Speicher
+2. ohne virtual DOM schreibt man teils voneinander abhängende imperative DOM-Änderungen deren Reihenfolge nicht ohne weiteres umkehrbar ist
+
+Witz an React
++ minimale DOM-Updates
++ Programmierer muss nicht darüber nachdenken wie diese zustande kommen - alles durch Virtual DOM abstrahiert und vereinfacht
+
+
+# React
+drives parts of Facebook & all of Instagram
+kind of the "V" in MVC
+
+Github's Atom editor switched to React to improve rendering performance (http://blog.atom.io/2014/07/02/moving-atom-to-react.html)
+
+Nolen: "wrote it off"
+
+"It's interesting people think there is more code in react ... we've found the opposite after several ember -> react rewrites."
+- Ryan Florence (@ryanflorence)
+https://twitter.com/ryanflorence/status/506851469056684032
+
+
+Christopher Chedeau (@vjeux): "React's Architecture". OSCON 2014. [https://www.youtube.com/watch?v=eCf5CquV_Bw](https://www.youtube.com/watch?v=eCf5CquV_Bw).
+
+---
+
+# React Components
+
+---
+
+# JSX
+
+"If you're going to hate on React for some reason, make it something other than JSX"
+Alex Matchneer (@machty), Ember.js core team
+(https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview?usp=sharing&sle=true#slide=id.g380053cce_1205)
+
+Alex Matchneer (@machty) 
+
+
+---
+
+# Diffing
+"with powerful heuristics we managed to turn a O(n^3) problem into a O(n) one."
+https://facebook.github.io/react/docs/reconciliation.html
+
+Problem:
+get/set (oder observe): wir wissen dass sich bestimmte Daten verändert haben, woher weiß ich jetzt was ich am DOM ändern muss?
+Backbone: verschiedene Views subscriben auf Änderungen an bestimmten Models, werden dann neu gerendert.
+Problem: ganze View wird neu gerendert, obwohl vllt. nur ein Teil davon im DOM aktualisiert werden müsste (DOM-Änderungen sind aber DER Flaschenhals in einer JS MVC App - reflow/-paint etc.).
+Ember: auch getter/setter; Vergleich mit React: https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview?usp=sharing&sle=true#slide=id.p
+Angular: 
+
+
+
+JSX
+Components
+
+http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome
+Pete Hunt: React: Rethinking best practices: http://2013.jsconf.eu/speakers/pete-hunt-react-rethinking-best-practices.html
+
+# Om
+
+Benchmark mit Todo MVC
+
+Om: 913 ms
+Backbone: 2,167 ms
+
+Grenzfall:
+Om: 105 ms
+Backbone: 4,200 ms
+
+Optimizing AngularJS: 1200ms to 35ms - http://blog.scalyr.com/2013/10/31/angularjs-1200ms-to-35ms
+
+
+
+http://www.petehunt.net/react/tastejs/benchmark.html
+
+VanillaJS/TodoMVC/Adding200Items/Sync : 1005.9922700000006 ms
+VanillaJS/TodoMVC/Adding200Items/Async : 600.2125379999998 ms
+VanillaJS/TodoMVC/CompletingAllItems/Sync : 1339.285769 ms
+VanillaJS/TodoMVC/CompletingAllItems/Async : 224.06729799999994 ms
+VanillaJS/TodoMVC/DeletingAllItems/Sync : 1173.3380480000014 ms
+VanillaJS/TodoMVC/DeletingAllItems/Async : 186.68930400000136 ms
+VanillaJS/TodoMVC : 4529.585227000003 ms
+EmberJS/TodoMVC/Adding200Items/Sync : 4397.025068000001 ms
+EmberJS/TodoMVC/Adding200Items/Async : 320.1463530000037 ms
+EmberJS/TodoMVC/CompletingAllItems/Sync : 2522.9012550000007 ms
+EmberJS/TodoMVC/CompletingAllItems/Async : 208.90673600000082 ms
+EmberJS/TodoMVC/DeletingItems/Sync : 4729.087371000001 ms
+EmberJS/TodoMVC/DeletingItems/Async : 243.08295300000464 ms
+EmberJS/TodoMVC : 12421.149736000012 ms
+BackboneJS/TodoMVC/Adding200Items/Sync : 619.1512220000004 ms
+BackboneJS/TodoMVC/Adding200Items/Async : 159.91802800000005 ms
+BackboneJS/TodoMVC/CompletingAllItems/Sync : 2008.4504489999963 ms
+BackboneJS/TodoMVC/CompletingAllItems/Async : 184.91508600000452 ms
+BackboneJS/TodoMVC/DeletingAllItems/Sync : 1676.8106610000032 ms
+BackboneJS/TodoMVC/DeletingAllItems/Async : 275.1769459999996 ms
+BackboneJS/TodoMVC : 4924.422392000004 ms
+jQuery/TodoMVC/Adding200Items/Sync : 1689.9794529999926 ms
+jQuery/TodoMVC/Adding200Items/Async : 849.2226680000022 ms
+jQuery/TodoMVC/CompletingAllItems/Sync : 4486.867192999998 ms
+jQuery/TodoMVC/CompletingAllItems/Async : 1754.3686890000026 ms
+jQuery/TodoMVC/DeletingAllItems/Sync : 23.403052999994543 ms
+jQuery/TodoMVC/DeletingAllItems/Async : 31.705121999999392 ms
+jQuery/TodoMVC : 8835.54617799999 ms
+AngularJS/TodoMVC/Adding200Items/Sync : 1918.720408999994 ms
+AngularJS/TodoMVC/Adding200Items/Async : 145.79874399999972 ms
+AngularJS/TodoMVC/CompletingAllItems/Sync : 2886.5484670000005 ms
+AngularJS/TodoMVC/CompletingAllItems/Async : 337.03211600000213 ms
+AngularJS/TodoMVC/DeletingAllItems/Sync : 5192.675345000003 ms
+AngularJS/TodoMVC/DeletingAllItems/Async : 3318.0291299999953 ms
+AngularJS/TodoMVC : 13798.804210999995 ms
+AngularJS-perf/TodoMVC/Adding200Items/Sync : 1885.8736439999993 ms
+AngularJS-perf/TodoMVC/Adding200Items/Async : 255.61978100000124 ms
+AngularJS-perf/TodoMVC/CompletingAllItems/Sync : 2060.725878999976 ms
+AngularJS-perf/TodoMVC/CompletingAllItems/Async : 321.06817499999306 ms
+AngularJS-perf/TodoMVC/DeletingAllItems/Sync : 4667.764341000016 ms
+AngularJS-perf/TodoMVC/DeletingAllItems/Async : 2552.566282999993 ms
+AngularJS-perf/TodoMVC : 11743.618102999979 ms
+React/TodoMVC/Adding200Items/Sync : 1503.4219929999963 ms
+React/TodoMVC/Adding200Items/Async : 187.70102599999518 ms
+React/TodoMVC/CompletingAllItems/Sync : 2406.4689939999953 ms
+React/TodoMVC/CompletingAllItems/Async : 195.02263200000743 ms
+React/TodoMVC/DeletingAllItems/Sync : 1693.991616000014 ms
+React/TodoMVC/DeletingAllItems/Async : 101.71366500000295 ms
+React/TodoMVC : 6088.319926000011 ms
+Total : 62341.445773000014 ms
+
+
+
+
+The Future of JavaScript MVC Frameworks: http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs
+
+https://github.com/swannodette/mori
+https://github.com/facebook/immutable-js
+https://github.com/Tvaroh/moreartyjs
+
+# Where does that leave us?
++ put React on your map -> use it as the view layer in your JS MVC for high-performant UIs (has successfully been integrated with Backbone, Angular, and Ember)
++ put ClojureScript on your map
++ put Om and immutable persistent data structures on your map
+
+
+
+
+
+"There so many new libs coming out for #javascript that are based on things from #clojure or #clojurescript Why can't we just use those?!?"
+(https://twitter.com/jakecraige/status/520995917810257920)
+
+"Ok, I've decided it's finally time to learn Clojure. Too many smart people I know are using it. Suggestions for a good place to start?"
+- Patrick Dubroy (@dubroy)
+https://twitter.com/dubroy/status/391172425150263296
+
+"I should go to clojure conferences even if I don't use Clojure. I see too many smart people going. #ClojureWest"
+- James “Jimmy” Long (@jlongster)
+https://twitter.com/jlongster/status/313665572976095232
+
+
+Toxi:
+"What I wasn’t quite prepared for were the many doors (of perception and inquiry) Clojure has opened wide in terms of process, thinking & learning about code from outside the boxes of our so beloved, popular languages & frameworks."
+(http://www.creativeapplications.net/tutorials/introduction-to-clojure-part-1/)
+
+AST example
+http://www.creativeapplications.net/wp-content/uploads/2013/12/hypot.pnga
+
+persistent data structures example:
+http://www.creativeapplications.net/wp-content/uploads/2013/04/persistent.png
+
+
+# LISP Macros
++ http://sweetjs.org/
+
+- - -
+
+# Links
+
+- - -
+
+# Further Reading
+
+https://github.com/Reactive-Extensions/RxJS
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+Bonus Chapters
+==============
+
+# Simplicity
+
+"The art of programming is the art of organizing complexity, of mastering multitude and avoiding its bastard chaos as effectively as possible."
+- Dijkstra (1970) "Notes On Structured Programming
+
+"we should do (as wise programmers aware of our limitations) our utmost to shorten the conceptual gap between the static program and the dynamic process, to make the correspondence between the program (spread out in text space) and the process (spread out in time) as trivial as possible."
+- Dijkstra (1968) "A Case against the GO TO Statement"
+-> processes are hard to predict, we need to model these processes as static programs, so we can reason about single snapshots in time.
+example:
++ list of online buddies:
++ alice, bob, charles: online via web, Carol: online via mobile.
++ list of imerative changes: alice went offline, bob went offline, steve went online, bob went online, charles is idle, charles is on mobile
++ very hard to keep a process that's evolving over time in your head, but easy to keep in mind how a static snapshot looks like: static JSON -> UI.
+
+solution so far (to turn process into static program): data binding! makes process a little more predictable.
+Data binding syncs state in your UI with state in yur data model so you don't have to.
+Pete Hunt sees data binding as a polyfill for reactive JavaScript/DOM.
+
+# Clojure: functional, LISP, immutable data structures, pragmatic etc.
+# core.async
+- https://github.com/ubolonton/js-csp
+- http://jlongster.com/Taming-the-Asynchronous-Beast-with-CSP-in-JavaScript
+
+
