@@ -72,17 +72,7 @@ Om: ClojureScript interface for React
 
 ---
 
-### Overview
-# Two Simplifications in JS-MVC
-1. **Virtual DOM** (React)
-2. **immutable** persistent data structures (Om)
-
-???
-concepts and **ideas**
-
----
-
-### Two Motivations
+### My Motivations & Paths
 .big[
 1. React & Om as interesting **JS-MVCs**
 2. Om as a gate opener into **Clojure**
@@ -94,7 +84,32 @@ concepts and **ideas**
 
 ---
 
+### My Motivations & Paths
+.big[
+1. .green-background[React & Om as interesting **JS-MVCs**]
+2. Om as a gate opener into **Clojure**
+]
+
+---
+
+### Overview
+# Two Simplifications in JS-MVC
+1. **Virtual DOM** (React)
+2. **immutable** persistent data structures (Om)
+
+???
+concepts and **ideas**
+
+---
+
+
+.centered.small-image[
+![Rich Hickey](images/rich_hickey.jpg)
+]
+
+.with-small-margins[
 # What is _simple_?
+]
 
 --
 
@@ -105,7 +120,9 @@ concepts and **ideas**
 + simple ≠ **familiar**
 
 ???
+Rich: key witness
 + **No interleaving**: piece of code with one concern or several concerns and ideas intertwined?
++ simple is not necessarily **easy** (what is near us / at hand / familiar)
 + Virtual DOM is **unfamiliar**, but still simple.
 + French is easy and familiar to French children - doesn't mean it's simple.
 
@@ -213,11 +230,17 @@ on **ANY** update of the data
 
 ---
 
-often devs still approach performance of JS code as if they are riding a horse cart but the horse had long been replaced with fusion reactor  
+.small-image.centered[
+![Mr. Aleph](images/mraleph.jpg)
+]
+    
+"often devs still approach performance of JS code as if they are riding a **horse cart** but the horse had long been replaced with **fusion reactor**"  
 
 .small[
   &mdash; Vyacheslav Egorov (@mraleph) <a href="https://twitter.com/mraleph/status/411549064787152896">December 13, 2013</a></blockquote>
 ]
+
+
 
 ???
 v8 compiler engineer
