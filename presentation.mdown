@@ -11,6 +11,7 @@
 
 ???
 + JavaScript, Ruby & Clojure at Railslove
++ academic background: philosophy & English lit
 
 ---
 
@@ -75,20 +76,18 @@ concepts and **ideas**
 # What is _simple_?
 ]
 
---
-
+.short[
 + "What matters for simplicity is that there's **no interleaving**." (Rich Hickey)
-
---
-
-+ simple ≠ **familiar**
++ simple ≠ easy, esp. not **familiar**
++ .red[**DANGER**]: mistake easy for simple
+]
 
 ???
 Rich: key witness
 + **No interleaving**: piece of code with one concern or several concerns and ideas intertwined?
 + simple is not necessarily **easy** (what is near us / at hand / familiar)
 + Virtual DOM is **unfamiliar**, but still simple.
-+ `npm install hairball` is easy and familiar but doesn't mean the installed component is simple
++ DANGER: mistake`npm install hairball` is easy and familiar but doesn't mean the installed component is simple
 + French is easy and familiar to French children - doesn't mean it's simple.
 
 ---
@@ -134,8 +133,8 @@ background-image: url(images/doom3.png)
 ---
 
 .with-small-margins[
-### React Components
-# Separation of Concerns & JSX
+### Separation of Concerns & JSX
+# React's Main Building Blocks: Components
 ]
 
 ```javascript
@@ -228,7 +227,7 @@ left: React, right: Backbone
 .big[
   data  
   -> **all** templates  
-  -> virtual DOM  
+  -> virtual DOM (JS object)  
   .red[->] DOM  
 ]
 
@@ -258,6 +257,8 @@ doesn't actually rerender everything (unchanging bits remain in the DOM - the DO
 ---
 
 # Diffing
++ virtual DOM is a normal JS object
+
 .big[
 "with powerful heuristics we managed to turn a O(n³) problem into a O(n) one."]
 
@@ -285,17 +286,149 @@ v8 compiler engineer
 
 ---
 
+# Om
+## "A ClojureScript .blue[interface] to Facebook's React"
+
+---
+
+# More than an interface
++ immutable data structures
++ global app state (like a database)
+
+---
+
+# "A .blue[ClojureScript] interface to Facebook's React"
+
++ Clojure on JavaScript engines
++ instead of the JVM (Clojure)
++ ~= Clojure
+
+---
+
+.with-small-margins[
+## Clojure & ClojureScript
+]
+.short[
++ 2007 / 2011
++ LISP `(+ 1 1)`
++ **immutable persistent data structures**
++ embraces simplicity
++ dynamic
++ functional
++ pragmatic
+]
+
+???
+LISP: biggest hurdle
+
+---
+
+.width-100[
+![elegant weapons](images/elegant_weapons.png)]
+
+---
+
+# ClojureScript
++ -vs- CoffeeScript: Clojure semantics
++ larger compilation: mostly to remodel Clojure data structures
++ integrated with Google .blue[Closure] Tools
+
+.small[
+other than this, Google Closure has **nothing** to do with Clojure]
+
+---
+
+# JS: e.g. mutable Arrays
+
+.large[
+```javascript
+var x = ['foo', 'bar'];
+
+x.push('baz'); // modifies the array.
+
+x
+=> ['foo', 'bar', 'baz']
+```
+]
+
+---
+
+# CLJS: Immutable list
+
+```clojure
+(def my_vec '( 1 2 3 4 ))
+=> #'user/my_vec
+
+(conj (pop my_vec) 11) ;; remove first el, add 11 to front
+=> (11 2 3 4)
+
+my_vec
+=> (1 2 3 4)
+```
+
+---
+
+background-image: url(images/linked_list.png)
+
+???
+
++ Works like git, only small diffes are kept to create second vector.
++ important for Om
+
+---
+
+# Om
+
++ even faster diffing:  
+  reference equality checks
+
+---
+
+# Om: undo
+
++ Goya:  
+  [https://jackschaedler.github.io/goya](https://jackschaedler.github.io/goya)
+
+---
+
+.with-small-margins[
+# Om: undo
+]
+
++ entire UI is built from one data structure - **global app state**
++ keep a **history** of app states
++ **stuctural sharing** (persistent data structures) ensures low memory consumption
++ feed flipped arguments to React's diffing algorithm
+
+???
 Undo - schwer aus 2 Gründen:
 
 1. Historie von App-States nachzuhalten frisst schnell viel Speicher
 2. ohne virtual DOM schreibt man teils voneinander abhängende imperative DOM-Änderungen deren Reihenfolge nicht ohne weiteres umkehrbar ist
 
-Witz an React
-+ minimale DOM-Updates
-+ Programmierer muss nicht darüber nachdenken wie diese zustande kommen - alles durch Virtual DOM abstrahiert und vereinfacht
-
 ---
 
+### Undo in 15 LoC
+
+```clojure
+(def app-history (atom [@app-state]))
+
+(add-watch app-state :history
+  (fn [_ _ _ n]
+    (when-not (= (last @app-history) n)
+      (swap! app-history conj n))
+    (set! (.-innerHTML (.getElementById js/document "message"))
+      (let [c (count @app-history)]
+        (str c " Saved " (pluralize c "State"))))))
+
+(aset js/window "undo"
+  (fn [e]
+    (when (> (count @app-history) 1)
+      (swap! app-history pop)
+      (reset! app-state (last @app-history)))))
+```
+
+---
 
 "It's interesting people think there is more code in react ... we've found the opposite after several ember -> react rewrites."
 - Ryan Florence (@ryanflorence)
@@ -303,10 +436,6 @@ https://twitter.com/ryanflorence/status/506851469056684032
 
 
 Christopher Chedeau (@vjeux): "React's Architecture". OSCON 2014. [https://www.youtube.com/watch?v=eCf5CquV_Bw](https://www.youtube.com/watch?v=eCf5CquV_Bw).
-
----
-
-# React Components
 
 ---
 
@@ -450,6 +579,11 @@ http://www.creativeapplications.net/wp-content/uploads/2013/04/persistent.png
    - re-render everything
 2. **immutable** persistent data structures (Om)
 
+???
++ aim was to whet your appetite
++ introduced new concepts
++ Om is an experiment - go play with it!
+
 ---
 
 .with-small-margins[
@@ -461,6 +595,8 @@ http://www.creativeapplications.net/wp-content/uploads/2013/04/persistent.png
 <!-- <iframe width="100%" height="450" src="http://localhost:8888"></iframe> -->
 
 <iframe width="100%" src="//www.youtube.com/embed/r0u1IBr1apU" frameborder="0" allowfullscreen></iframe>
+
++ [http://github.com/paulwittmann/omingard](http://github.com/paulwittmann/omingard)
 
 ---
 
