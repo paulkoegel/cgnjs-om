@@ -14,6 +14,15 @@
 
 ---
 
+# Sections
+
++ Prelude: x slides
++ React: y slides
++ Om: z slides
++ Bonus: b slides
+
+---
+
 # Ideas behind
 + **React**: JS MVC by Facebook
 + **Om**: ClojureScript interface for React
@@ -30,13 +39,15 @@
 ### Omingard
 ]
 
+<br>
+
 <!-- <iframe width="100%" height="450" src="http://localhost:8888"></iframe> -->
 
 <iframe width="100%" src="//www.youtube.com/embed/r0u1IBr1apU" frameborder="0" allowfullscreen></iframe>
 
 ---
 
-### My Motivations & Paths
+### Paths
 .big[
 1. React & Om as interesting **JS MVCs**
 2. Om as a gate opener into **Clojure**
@@ -48,7 +59,7 @@
 
 ---
 
-### My Motivations & Paths
+### Paths
 .big[
 1. .green-background[React & Om as interesting **JS MVCs**]
 2. Om as a gate opener into **Clojure**
@@ -65,7 +76,6 @@
 concepts and **ideas**
 
 ---
-
 
 .centered.small-image[
 ![Rich Hickey](images/rich_hickey.jpg)
@@ -92,25 +102,16 @@ Rich: key witness
 
 ---
 
-# Goal
-+ not prove how fast React is  
-+ **but**
-
-> show ideas that are "making an entire family of common and tedious hand optimization techniques _obsolete_"
-  .small[
-    ["The Future of JavaScript MVC Frameworks" - David Nolen](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs)
-  ]
-
-???
-[Optimizing AngularJS: 1200ms to 35ms](http://blog.scalyr.com/2013/10/angularjs-1200ms-to-35ms)
-
----
-
 # React & Om
 Not aiming for the best performance but,  
 **simple solutions** with reasonable performance out of the box.
 
-It just so happens that React is **bloody fast**.
+--
+
+"making an entire family of common and tedious hand optimization techniques _obsolete_"
+.small-close[
+  David Nolen. ["The Future of JavaScript MVC Frameworks"](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs)
+]
 
 ---
 
@@ -130,6 +131,10 @@ It just so happens that React is **bloody fast**.
 
 ???
 Github's Atom editor switched to React to improve rendering performance; source: [http://blog.atom.io/2014/07/02/moving-atom-to-react.html](http://blog.atom.io/2014/07/02/moving-atom-to-react.html)
+
+---
+
+background-image: url(images/using_react.png)
 
 ---
 
