@@ -3,57 +3,26 @@
 <!-- Although Facebook's React only plays the part of "V" in JavaScript MVC, it is making huge waves. Its virtual DOM offers a tremendous simplification of view rendering along with significant performance benefits. This talk will show how React's virtual DOM works, as well as introduce Om, a ClojureScript interface for React. By harnessing immutable persistent data structures, Om offers even faster performance than React. Thanks to its global app state, implementing undo becomes trivial. -->
 <!--  -->
 
-```
-var CommentBox = React.createClass({
-  render: function() {
-    return (
-      <div className="commentBox">
-        Hello, world! I am a CommentBox.
-      </div>
-    );
-  }
-});
-React.renderComponent(
-  <CommentBox />,
-  document.getElementById('content')
-);
-```
-
----
-
-```html
-<html>
-  <head>
-    <title>Hello React</title>
-    <script src="http://fb.me/react-0.11.2.js"></script>
-    <script src="http://fb.me/JSXTransformer-0.11.2.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-  </head>
-  <body>
-    <div id="content"></div>
-    <script type="text/jsx">
-      /** @jsx React.DOM */
-      // The above declaration must remain intact at the top of the script.
-      // Your code here
-    </script>
-  </body>
-</html>
-```
-
----
-
 # React & Om
 
+### Paul Wittmann 
++ [@wakkahari](https://twitter.com/wakkahari)
++ paul@railslove.com
+
 ???
-What's this guy even talking about? / TL;DR
-React: JS MVC by Facebook
-Om: ClojureScript interface for React
++ JavaScript, Ruby & Clojure at Railslove
 
 ---
 
-# Paul Wittmann 
-+ JavaScript, Ruby & Clojure at Railslove
-+ [@wakkahari](https://twitter.com/wakkahari)
+# Ideas behind
++ **React**: JS MVC by Facebook
++ **Om**: ClojureScript interface for React
+
+---
+
+# Proviso
++ not a tutorial
++ not actually about performance
 
 ---
 
@@ -67,14 +36,9 @@ Om: ClojureScript interface for React
 
 ---
 
-+ not a tutorial
-+ not actually about performance
-
----
-
 ### My Motivations & Paths
 .big[
-1. React & Om as interesting **JS-MVCs**
+1. React & Om as interesting **JS MVCs**
 2. Om as a gate opener into **Clojure**
 ]
 
@@ -86,14 +50,14 @@ Om: ClojureScript interface for React
 
 ### My Motivations & Paths
 .big[
-1. .green-background[React & Om as interesting **JS-MVCs**]
+1. .green-background[React & Om as interesting **JS MVCs**]
 2. Om as a gate opener into **Clojure**
 ]
 
 ---
 
 ### Overview
-# Two Simplifications in JS-MVC
+# Two Simplifications in JS MVC
 1. **Virtual DOM** (React)
 2. **immutable** persistent data structures (Om)
 
@@ -153,7 +117,7 @@ It just so happens that React is **bloody fast**.
 # React
 
 + "A JavaScript Library for Building User Interfaces"
-+ the **V** in JS-MVC
++ the **V** in JS MVC
 
 ---
 
@@ -175,7 +139,7 @@ Github's Atom editor switched to React to improve rendering performance; source:
 
 ---
 
-+ normal JS-MVC:  
++ normal JS MVC:  
   data -> template .red[->] DOM
 
 --
@@ -288,8 +252,12 @@ Alex Matchneer (@machty)
 ---
 
 # Diffing
-"with powerful heuristics we managed to turn a O(n^3) problem into a O(n) one."
-https://facebook.github.io/react/docs/reconciliation.html
+"with powerful heuristics we managed to turn a O(n³) problem into a O(n) one."
+.small-close[
+  [https://facebook.github.io/react/docs/reconciliation.html](https://facebook.github.io/react/docs/reconciliation.html)
+]
+
+---
 
 Problem:
 get/set (oder observe): wir wissen dass sich bestimmte Daten verändert haben, woher weiß ich jetzt was ich am DOM ändern muss?
@@ -537,4 +505,41 @@ function DatePickerModel() {
 - https://github.com/ubolonton/js-csp
 - http://jlongster.com/Taming-the-Asynchronous-Beast-with-CSP-in-JavaScript
 
+---
 
+```
+var CommentBox = React.createClass({
+  render: function() {
+    return (
+      <div className="commentBox">
+        Hello, world! I am a CommentBox.
+      </div>
+    );
+  }
+});
+React.renderComponent(
+  <CommentBox />,
+  document.getElementById('content')
+);
+```
+
+---
+
+```html
+<html>
+  <head>
+    <title>Hello React</title>
+    <script src="http://fb.me/react-0.11.2.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.11.2.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/jsx">
+      /** @jsx React.DOM */
+      // The above declaration must remain intact at the top of the script.
+      // Your code here
+    </script>
+  </body>
+</html>
+```
