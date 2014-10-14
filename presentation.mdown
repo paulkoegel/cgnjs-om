@@ -384,11 +384,6 @@ http://www.creativeapplications.net/wp-content/uploads/2013/04/persistent.png
 
 ---
 
-# LISP Macros
-key
-
----
-
 # Summary
 
 1. **Virtual DOM** (React)
@@ -398,9 +393,14 @@ key
 
 ---
 
+# Slides
+http://tinyurl.com/om-cgnjs
+
+---
+
 # Links
 
-- - -
+---
 
 # Further Reading
 
