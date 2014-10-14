@@ -35,40 +35,8 @@
 
 ---
 
-.with-small-margins[
-### Omingard
-]
-
-<br>
-
-<!-- <iframe width="100%" height="450" src="http://localhost:8888"></iframe> -->
-
-<iframe width="100%" src="//www.youtube.com/embed/r0u1IBr1apU" frameborder="0" allowfullscreen></iframe>
-
----
-
-### Paths
-.big[
-1. React & Om as interesting **JS MVCs**
-2. Om as a gate opener into **Clojure**
-]
-
-???
-1.: today
-2.: alien technology, upcoming blog post
-
----
-
-### Paths
-.big[
-1. .green-background[React & Om as interesting **JS MVCs**]
-2. Om as a gate opener into **Clojure**
-]
-
----
-
 ### Overview
-# Two Simplifications in JS MVC
+# Two Simple Ideas for JS MVC
 1. **Virtual DOM** (React)
 2. **immutable** persistent data structures (Om)
 
@@ -395,6 +363,30 @@ http://www.creativeapplications.net/wp-content/uploads/2013/04/persistent.png
    - precise
    - re-render everything
 2. **immutable** persistent data structures (Om)
+
+---
+
+.with-small-margins[
+# Coda: Omingard
+]
+
+<br>
+
+<!-- <iframe width="100%" height="450" src="http://localhost:8888"></iframe> -->
+
+<iframe width="100%" src="//www.youtube.com/embed/r0u1IBr1apU" frameborder="0" allowfullscreen></iframe>
+
+---
+
+# Coda: Paths
+.big[
+1. React & Om as interesting **JS MVCs**
+2. Om as a gate opener into **Clojure**
+]
+
+???
+1.: today
+2.: alien technology, upcoming blog post
 
 ---
 
