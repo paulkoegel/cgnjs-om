@@ -14,34 +14,56 @@
 
 ---
 
-# Sections
+class: background-cover
+background-image: url(images/react_logo.png)
 
-+ Prelude: x slides
-+ React: y slides
-+ Om: z slides
-+ Bonus: b slides
+???
+
+JS MVC from Facebook
 
 ---
 
-# Ideas behind
-+ **React**: JS MVC by Facebook
-+ **Om**: ClojureScript interface for React
+class: background-cover
+background-image: url(images/om_logo.png)
+
+???
+ClojureScript interface for React
+
+---
+
+.with-small-margins[
+###### Overview
+]
+# Two _Simple_<br> Ideas for JS MVC
+1. **Virtual DOM** (React)
+2. **Immutable** persistent data structures (Om)
+
+???
+concepts and **ideas**
 
 ---
 
 # Proviso
++ about **ideas**
 + not a tutorial
 + not actually about performance
 
 ---
 
-### Overview
-# Two Simple Ideas for JS MVC
-1. **Virtual DOM** (React)
-2. **immutable** persistent data structures (Om)
+# React & Om
++ Not focussed on delivering the best possible performance
++ aiming for **simple solutions** with reasonable performance out of the box.
 
-???
-concepts and **ideas**
+---
+
+### Better performance through simplicity
+
+.big[
+"making an entire family of common and tedious hand optimization techniques _obsolete_"
+]
+.small[
+  David Nolen. ["The Future of JavaScript MVC Frameworks"](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs)
+]
 
 ---
 
@@ -66,22 +88,12 @@ Rich: key witness
 + **No interleaving**: piece of code with one concern or several concerns and ideas intertwined?
 + simple is not necessarily **easy** (what is near us / at hand / familiar)
 + Virtual DOM is **unfamiliar**, but still simple.
++ `npm install hairball` is easy and familiar but doesn't mean the installed component is simple
 + French is easy and familiar to French children - doesn't mean it's simple.
 
 ---
 
-# React & Om
-Not aiming for the best performance but,  
-**simple solutions** with reasonable performance out of the box.
-
---
-
-"making an entire family of common and tedious hand optimization techniques _obsolete_"
-.small-close[
-  David Nolen. ["The Future of JavaScript MVC Frameworks"](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs)
-]
-
----
+background-image: url(images/react_logo_transparent.png)
 
 # React
 
@@ -106,14 +118,62 @@ background-image: url(images/using_react.png)
 
 ---
 
+.large[
+"I totally wrote it off. I was like, “This is not something I’m ever going to use.” But [...] a good friend [...] was like, _“[...] you really should look at how it works because it’s like the way that game developers do **game engines**.”_  
+Then **Pete Hunt** [...] gave a great talk about the design. And I sort of got an epiphany."
+]
+<br>
+.small[
+David Nolen. [http://javascriptjabber.com/107-jsj-clojurescript-om-with-david-nolen](http://javascriptjabber.com/107-jsj-clojurescript-om-with-david-nolen)
+]
+
+---
+
+background-image: url(images/doom3.png)
+
+---
+
 .with-small-margins[
-  # Killer Feature: Virtual DOM
+### React Components
+# Separation of Concerns & JSX
+]
+
+```javascript
+var Comment = React.createClass({
+  render: function() {
+    var rawMarkup = converter.makeHtml(this.props.children.toString());
+    return (
+      <div className="comment">
+        <h2 className="commentAuthor">{this.props.author}</h2>
+        <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
+      </div>
+    );
+  }
+});
+```
+
+???
+How come people ignore React?
+
+---
+
+.big[
+"If you're going to hate on React for some reason, make it something other than JSX"]
+.small[
+Alex Matchneer (@machty), Ember.js core team
+[https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview?usp=sharing&sle=true#slide=id.g380053cce_1205](https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview?usp=sharing&sle=true#slide=id.g380053cce_1205)
+]
+
+---
+
+.with-small-margins[
+  # Killer Feature:<br> Virtual DOM
 ]
 
 ---
 
 + normal JS MVC:  
-  data -> template .red[->] DOM
+  data -> template .red[**->**] DOM
 
 --
 
@@ -124,12 +184,20 @@ background-image: url(images/using_react.png)
 --
 
 + React:  
-  data -> template -> virtual DOM .red[->] DOM
+  data -> template -> virtual DOM .red[**->**] DOM
+
+.blue[
+  **Same bottleneck, less traffic**
+]
 
 ---
 
 .with-small-margins[
-  # Virtual DOM in Action
+  ## Virtual DOM in Action
+]
+
+.small[
+left: React, right: Backbone
 ]
 
 ![monkeys](images/monkeys_100_delay.gif)
@@ -141,19 +209,21 @@ background-image: url(images/using_react.png)
 ---
 
 # Virtual DOM 
-+ precise DOM updates
 + re-render **everything**
++ precise DOM updates
 
 ---
 
 .big[
-  "React's key design decision is to make the API seem like it re-renders the whole app on every update."
+  "React's key design decision is to make the API .blue[**seem**] like it re-renders the whole app on every update."
 ]
 .small[
   [https://facebook.github.io/react/docs/reconciliation.html](https://facebook.github.io/react/docs/reconciliation.html)
 ]
 
 ---
+
+# Re-render everything all the time
 
 .big[
   data  
@@ -163,7 +233,40 @@ background-image: url(images/using_react.png)
 ]
 
 ???
+Easy to reason about JS MVC.
 on **ANY** update of the data
+
+---
+
+# How can this ever work?
+
+---
+
+# How does it work?
+
+.big[
+  data  
+  -> **all** templates  
+  -> virtual DOM  
+  -> .blue[**DIFF**]  
+  .green[**minimal changes ->**] DOM  
+]
+
+???
+doesn't actually rerender everything (unchanging bits remain in the DOM - the DOM is stateful, after all) - see demo and cf. Vjeux talk
+
+---
+
+# Diffing
+.big[
+"with powerful heuristics we managed to turn a O(n³) problem into a O(n) one."]
+
+.small[
+  [https://facebook.github.io/react/docs/reconciliation.html](https://facebook.github.io/react/docs/reconciliation.html)
+]
+
+???
+Diff would take 17min for 10.000 DOM nodes on 1Ghz machine with O(n³) (cf. Vjeux talk).
 
 ---
 
@@ -177,14 +280,10 @@ on **ANY** update of the data
   &mdash; Vyacheslav Egorov (@mraleph) <a href="https://twitter.com/mraleph/status/411549064787152896">December 13, 2013</a></blockquote>
 ]
 
-
-
 ???
 v8 compiler engineer
 
 ---
-
-deliver competitive levels of component abstraction while making an entire family of common and tedious hand optimization techniques obsolete.
 
 Undo - schwer aus 2 Gründen:
 
@@ -198,8 +297,6 @@ Witz an React
 ---
 
 
-Nolen: "wrote it off"
-
 "It's interesting people think there is more code in react ... we've found the opposite after several ember -> react rewrites."
 - Ryan Florence (@ryanflorence)
 https://twitter.com/ryanflorence/status/506851469056684032
@@ -210,17 +307,6 @@ Christopher Chedeau (@vjeux): "React's Architecture". OSCON 2014. [https://www.y
 ---
 
 # React Components
-
----
-
-# JSX
-
-"If you're going to hate on React for some reason, make it something other than JSX"
-Alex Matchneer (@machty), Ember.js core team
-(https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview?usp=sharing&sle=true#slide=id.g380053cce_1205)
-
-Alex Matchneer (@machty) 
-
 
 ---
 
