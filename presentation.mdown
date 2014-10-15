@@ -668,6 +668,7 @@ source: ["Time Travel"](https://swannodette.github.io/2013/12/31/time-travel/) &
   .extra-small[shows you how to set up an editor for easy Clojure development - found this way easier than installing vim or emacs plugins - wouldn't consider using Lighttable as my main editor, but it's great to get started in Clojure land]
 + ["The Future of JavaScript MVC Frameworks"](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs) &ndash; [David Nolen](https://twitter.com/swannodette)
 + ["Time Travel"](https://swannodette.github.io/2013/12/31/time-travel/) &ndash; [David Nolen](https://twitter.com/swannodette)
++ ["Alien Technology: Ideas from the Clojureverse"](https://github.com/paulwittmann/alien-technology-9elements) &ndash; [Paul Wittmann](https://twitter.com/wakkahari) &ndash; alternative telling of this talk
 ]
 
 ---
