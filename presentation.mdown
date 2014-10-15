@@ -87,7 +87,7 @@ Re: performance
 ]
 
 .short[
-+ "What matters for simplicity is that there's **no interleaving**." (Rich Hickey)
++ "What matters for simplicity is that there's **no interleaving**." ([Rich Hickey](https://twitter.com/richhickey))
 + **simple ≠ easy**, esp. not familiar
 + .red[**DANGER**]: mistake easy for simple
 + &#10142; Rich Hickey's Rails Conf 2012 keynote: ["Simplicity matters"](https://www.youtube.com/watch?v=rI8tNMsozo0)
@@ -560,7 +560,7 @@ Undo - schwer aus 2 Gründen:
 ```
 
 .small[
-source: ["Time Travel"](https://swannodette.github.io/2013/12/31/time-travel/) - [David Nolen](https://twitter.com/swannodette)
+source: ["Time Travel"](https://swannodette.github.io/2013/12/31/time-travel/) &ndash; [David Nolen](https://twitter.com/swannodette)
 ]
 
 ---
@@ -583,6 +583,22 @@ source: ["Time Travel"](https://swannodette.github.io/2013/12/31/time-travel/) -
 + introduced new concepts
 + Om is an experiment - go play with it!
 
+---
+
+.with-small-margins[
+### Bonus: Live ClojureScript REPL Demo in Lighttable
+]
+
+.extra-short[
++ [Lighttable](http://lighttable.com) is an editor developed by [Chris Granger](https://twitter.com/ibdknox)
+]
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/C0Mf_KIWX38" frameborder="0" allowfullscreen></iframe>
+<!-- _ fix markdown highlighting -->
+
+.extra-short[
++ .small[Chris does super awesome crazy stuff: Thoughtbot podcast: ["Thinking Outside the Loop - Programming inside a database](http://podcasts.thoughtbot.com/giantrobots/111)]
+]
 ---
 
 .with-small-margins[
@@ -615,10 +631,60 @@ source: ["Time Travel"](https://swannodette.github.io/2013/12/31/time-travel/) -
 
 ---
 
-# Links
+.with-small-margins[
+### Simplicity Links
+]
 
-### React
-+ [React vs. Ember - Alex Matchneer](https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview)
+.extra-short[
++ ["Simplicity matters"](https://www.youtube.com/watch?v=rI8tNMsozo0) &ndash; [Rich Hickey](https://twitter.com/richhickey)
++ ["Clojure: Programming with Hand Tools"](https://www.youtube.com/watch?v=ShEez0JkOFw) &ndash; Tim Ewald
++ ["Rich Hickey’s Greatest Hits"](http://thechangelog.com/rich-hickeys-greatest-hits) - The Change Log
+]
 
-### Om & ClojureScript
+.with-small-margin-bottom[
+### React Links
+]
+
+.extra-short[
++ ["Removing User Interface Complexity, or Why React is Awesome"](http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome) &ndash; [James Long](https://twitter.com/jlongster)
++ ["React vs. Ember"](https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview) &ndash; [Alex Matchneer](https://twitter.com/machty)
++ ["React: Rethinking best practices"](http://2013.jsconf.eu/speakers/pete-hunt-react-rethinking-best-practices.html) &ndash; [Pete Hunt](https://twitter.com/floydophone)
++ ["React: Secrets of the Virtual DOM"](https://www.youtube.com/watch?v=1h2G20A-AvY) &ndash; [Pete Hunt](https://twitter.com/floydophone)
++ ["React's Architecture"](https://www.youtube.com/watch?v=eCf5CquV_Bw) &ndash; [Christopher Chedeau](https://twitter.com/vjeux)
++ ["React's diff algorithm"](http://calendar.perfplanet.com/2013/diff) &ndash; [Christopher Chedeau](https://twitter.com/vjeux)
+]
+
+---
+
+.with-small-margin-bottom[
+### Om & ClojureScript Links
+]
+
+.extra-short[
 + [JavaScript Jabber with David Nolen](http://javascriptjabber.com/107-jsj-clojurescript-om-with-david-nolen)
++ ["Immutability, interactivity & JavaScript"](https://www.youtube.com/watch?v=mS264h8KGwk) &ndash; [David Nolen]((https://twitter.com/swannodette). FutureJS 2014.
++ the excellent [Om Tutorial](https://github.com/swannodette/om/wiki/Basic-Tutorial)
++ [Light Table ClojureScript Tutorial](https://github.com/swannodette/lt-cljs-tutorial)
+  .extra-small[shows you how to set up an editor for easy Clojure development - found this way easier than installing vim or emacs plugins - wouldn't consider using Lighttable as my main editor, but it's great to get started in Clojure land]
++ ["The Future of JavaScript MVC Frameworks"](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs) &ndash; [David Nolen](https://twitter.com/swannodette)
++ ["Time Travel"](https://swannodette.github.io/2013/12/31/time-travel/) &ndash; [David Nolen](https://twitter.com/swannodette)
+]
+
+---
+
+.with-small-margin-bottom[
+### More Om & ClojureScript Links
+]
+
+.extra-short[
++ [Goya](https://jackschaedler.github.io/goya) &ndash; Om undo demo app developed by an Ableton engineer
++ ["Decomposing web app development"](http://tonsky.me/blog/decomposing-web-app-development/) &ndash; [Nikita Prokopov](https://twitter.com/tonsky); about Datascript: mini-Datomic in JavaScript
+]
+
+.with-small-margin-bottom[
+### Functional Programming Links
+]
+
+.extra-short[
++ ["Object Oriented Programming is an expensive disaster which must end"](http://www.smashcompany.com/technology/object-oriented-programming-is-an-expensive-disaster-which-must-end) - [Lawrence Krubner](https://twitter.com/krubner)
+]
