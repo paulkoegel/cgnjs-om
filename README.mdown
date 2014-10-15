@@ -1,7 +1,7 @@
 [&#10142; Slides](https://paulwittmann.github.io/cgnjs-om)
 
 # React & Om
-## [Cologne.js - 2014-10-14](http://colognejs.de/talks/#2014-10-14)
+## Cologne.js - 2014-10-14
 
 ### Paul Wittmann
 [@wakkahari](https://twitter.com/wakkahari) &mdash; <paul@railslove.com>
