@@ -1,13 +1,20 @@
-<!-- React and Om -->
-<!--  -->
-<!-- Although Facebook's React only plays the part of "V" in JavaScript MVC, it is making huge waves. Its virtual DOM offers a tremendous simplification of view rendering along with significant performance benefits. This talk will show how React's virtual DOM works, as well as introduce Om, a ClojureScript interface for React. By harnessing immutable persistent data structures, Om offers even faster performance than React. Thanks to its global app state, implementing undo becomes trivial. -->
-<!--  -->
+class: title-slide
 
 # React & Om
 
-### Paul Wittmann 
-+ [@wakkahari](https://twitter.com/wakkahari)
-+ paul@railslove.com
+## [Cologne.js - 2014-10-14](http://colognejs.de/talks/#2014-10-14)
+
+.with-small-margin-bottom[
+##### Paul Wittmann
+]
+
+.small[
+[@wakkahari](https://twitter.com/wakkahari) &mdash; <paul@railslove.com>
+]
+<br>
+.extra-small[
+**Abstract**  
+Although Facebook's React only plays the part of "V" in JavaScript MVC, it is making huge waves. Its virtual DOM offers a tremendous simplification of view rendering along with significant performance benefits. This talk will show how React's virtual DOM works, as well as introduce Om, a ClojureScript interface for React. By harnessing immutable persistent data structures, Om offers even faster performance than React. Thanks to its global app state, implementing undo becomes trivial.]
 
 ???
 + JavaScript, Ruby & Clojure at Railslove
@@ -83,6 +90,7 @@ Re: performance
 + "What matters for simplicity is that there's **no interleaving**." (Rich Hickey)
 + **simple ≠ easy**, esp. not familiar
 + .red[**DANGER**]: mistake easy for simple
++ &#10142; Rich Hickey's Rails Conf 2012 keynote: ["Simplicity matters"](https://www.youtube.com/watch?v=rI8tNMsozo0)
 ]
 
 ???
@@ -100,7 +108,8 @@ background-image: url(images/react_logo_transparent.png)
 # React
 
 + "A JavaScript Library for Building User Interfaces"
-+ the **V** in JS MVC
++ the **V** in JS MVC  
+  .small[("and a bit of the controller as well")]
 + usually used alongside Backbone, Angular, Ember
 
 ---
@@ -112,13 +121,17 @@ background-image: url(images/react_logo_transparent.png)
 + released in May 2013
 + developed by Facebook
 + drives parts of Facebook, all of Instagram
-+ Atom editor
-+ Ember team is planning to steal some ideas
++ Github's Atom editor: [better performance through React](http://blog.atom.io/2014/07/02/moving-atom-to-react.html)
++ Ember team is planning to steal some ideas (&#10142; [React vs. Ember](https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview))
 
 ???
 Github's Atom editor switched to React to improve rendering performance; source: [http://blog.atom.io/2014/07/02/moving-atom-to-react.html](http://blog.atom.io/2014/07/02/moving-atom-to-react.html)
 
 ---
+ 
+.with-small-margins[
+### David Nolen's First impression of React
+]
 
 .large[
 "I totally wrote it off. I was like, “This is not something I’m ever going to use.” But [...] a good friend [...] was like, _“[...] you really should look at how it works because it’s like the way that game developers do **game engines**.”_  
@@ -132,6 +145,9 @@ David Nolen. [http://javascriptjabber.com/107-jsj-clojurescript-om-with-david-no
 ---
 
 background-image: url(images/doom3.png)
+.with-small-margins[
+### Doom 3 Rendering Engine overlaid with Corresponding Parts of React's Architecture
+]
 
 ---
 
@@ -156,9 +172,12 @@ var Comment = React.createClass({
 
 ???
 How come people ignore React?
++ components unify templates and views
++ JSX is weird
 
 ---
 
+<br>
 .big[
 "If you're going to hate on React for some reason, make it something other than JSX"]
 .small[
@@ -169,24 +188,41 @@ Alex Matchneer (@machty), Ember.js core team
 ---
 
 .with-small-margins[
-  # Killer Feature:<br> Virtual DOM
+### Components
+]
+
++ merge template and view into one - usually considered a _poor_ separation of concerns. Pete Hunt claims it's not  
+  &#10142; ["React: Rethinking best practices"](http://2013.jsconf.eu/speakers/pete-hunt-react-rethinking-best-practices.html)
++ [no templating language](https://facebook.github.io/react/blog/2013/06/05/why-react.html).blue[*], you can harness the full power of JS to build your templates - Clojure people like this very much
+
+.small[
+.blue[*] JSX is just a very thin layer on top of JS functions that generate DOM elements
 ]
 
 ---
 
+.with-small-margins[
+  # React's Killer Feature:<br> Virtual DOM
+]
+
++ &#10142; ["React: Secrets of the Virtual DOM"](https://www.youtube.com/watch?v=1h2G20A-AvY) &ndash; [Pete Hunt](https://twitter.com/floydophone)
++ &#10142; ["React's Architecture"](https://www.youtube.com/watch?v=eCf5CquV_Bw) &ndash; [Christopher Chedeau](https://twitter.com/vjeux)
+
+---
+
 + normal JS MVC:  
-  data -> template .red[**->**] DOM
+  data &#10142; template .red[**&#10142;**] DOM
 
 --
 
 .red[
-  ## BOTTLENECK!
+  ## BOTTLENECK! Reflows and -paints.
 ]
 
 --
 
 + React:  
-  data -> template -> virtual DOM .red[**->**] DOM
+  data &#10142; template &#10142; virtual DOM .blue[**&#10142;**] DOM
 
 .blue[
   **Same bottleneck, less traffic**
@@ -210,28 +246,41 @@ left: React, right: Backbone
 
 ---
 
-# Virtual DOM 
-+ re-render **everything**
-+ precise DOM updates
+.short[
++ **Backbone:** onkeyup` the entire view gets rerendered although only the text at the beginning is changed &#10142; the mathematical formulas are flickering
++ **React:** the same view (= React component) gets rerendered, but only to the **virtual DOM**, which is then **diffed** with the previous virtual DOM. From the diff, a minimal changeset is built and applied to the actual DOM - the actual DOM elements containing the formulas are never touched, even though they're part of the React component whose data gets updated `onkeyup`.
+]
 
 ---
 
+# Virtual DOM 
++ as we just saw: **precise DOM updates**  
+  only the DOM nodes that actually need to be updated get updated, putting less traffic on the bottleneck of JS MVC rendering performance
++ furthermore: **re-render everything** - huge conceptual simplification
+
+---
+
+<br>
 .big[
   "React's key design decision is to make the API .blue[**seem**] like it re-renders the whole app on every update."
 ]
 .small[
   [https://facebook.github.io/react/docs/reconciliation.html](https://facebook.github.io/react/docs/reconciliation.html)
 ]
+<br>
+.small[
+.blue["seem"] because it re-renders only the entire virtual DOM - the actual DOM receives only a minimal changeset (after diffing)
+]
 
 ---
 
-# Re-render everything all the time
+# Re-render everything on any data update
 
 .big[
-  data  
-  -> **all** templates  
-  -> virtual DOM (JS object)  
-  .red[->] DOM  
+  updated data  
+  &#10142; .blue[**all** templates]  
+  &#10142; virtual DOM (JS object)  
+  .red[&#10142;] DOM  
 ]
 
 ???
@@ -240,18 +289,24 @@ on **ANY** update of the data
 
 ---
 
-# How can this ever work?
+# Re-render everything on any data update
++ you don't have to worry about whether bindings between models and multiple views work
++ very easy to reason about
 
 ---
 
-# How does it work?
+# But how can this ever work?
+
+---
+
+# This is how it works:
 
 .big[
-  data  
-  -> **all** templates  
-  -> virtual DOM  
-  -> .blue[**DIFF**]  
-  .green[**minimal changes ->**] DOM  
+  updated data  
+  &#10142; all templates  
+  &#10142; virtual DOM  
+  &#10142; .blue[**DIFF**]  
+  .green[**minimal changes &#10142;**] DOM  
 ]
 
 ???
@@ -261,13 +316,12 @@ doesn't actually rerender everything (unchanging bits remain in the DOM - the DO
 
 # Diffing
 + virtual DOM is a normal JS object
++ "with powerful heuristics we managed to turn a O(n³) problem into a O(n) one."
+  .small[
+    [https://facebook.github.io/react/docs/reconciliation.html](https://facebook.github.io/react/docs/reconciliation.html)
+  ]
+  &#10142; ["React's Architecture"](https://www.youtube.com/watch?v=eCf5CquV_Bw) &ndash; [Christopher Chedeau](https://twitter.com/vjeux)
 
-.big[
-"with powerful heuristics we managed to turn a O(n³) problem into a O(n) one."]
-
-.small[
-  [https://facebook.github.io/react/docs/reconciliation.html](https://facebook.github.io/react/docs/reconciliation.html)
-]
 
 ???
 Diff would take 17min for 10.000 DOM nodes on 1Ghz machine with O(n³) (cf. Vjeux talk).
@@ -281,22 +335,29 @@ Diff would take 17min for 10.000 DOM nodes on 1Ghz machine with O(n³) (cf. Vjeu
 "often devs still approach performance of JS code as if they are riding a **horse cart** but the horse had long been replaced with **fusion reactor**"  
 
 .small[
-  &mdash; Vyacheslav Egorov (@mraleph) <a href="https://twitter.com/mraleph/status/411549064787152896">December 13, 2013</a></blockquote>
+  &mdash; Vyacheslav Egorov (@mraleph) <a href="https://twitter.com/mraleph/status/411549064787152896">December 13, 2013</a>  
+  v8 compiler engineer
 ]
 
-???
-v8 compiler engineer
-
 ---
 
+.with-small-margins[
 # Om
-## "A ClojureScript .blue[interface] to Facebook's React"
+### "A ClojureScript .blue[interface] to Facebook's React"
+]
+
+.short[
++ Om is built on top of React &ndash; to use Om you always have to load React
++ Om is written in ClojureScript &ndash; you cannot use Om without ClojureScript
++ Blog post introducing Om:  
+  ["The Future of JavaScript MVC Frameworks"](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs) &ndash; [David Nolen](https://twiter.com/swannodette), December 2013
+]
 
 ---
 
-# More than an interface
-+ immutable data structures
-+ global app state (like a database)
+# More than an interface / Differences to React
++ **immutable** data structures
++ **global** app state (like a database)
 
 ---
 
@@ -313,11 +374,11 @@ v8 compiler engineer
 ]
 .short[
 + 2007 / 2011
-+ LISP `(+ 1 1)`
++ LISP &ndash; with weird syntax like `(+ 1 1)` .red[(biggest hurdle)]
 + **immutable persistent data structures**
 + embraces simplicity
 + dynamic
-+ functional
++ functional .red[(not object-oriented - another hurdle)]
 + pragmatic
 ]
 
@@ -337,17 +398,17 @@ LISP: biggest hurdle
 + integrated with Google .blue[Closure] Tools
 
 .small[
-other than this, Google Closure has **nothing** to do with Clojure]
+despite the similar name: other than this, Google Closure has **nothing** to do with Clojure]
 
 ---
 
-# JS: e.g. mutable Arrays
+### JavaScript: e.g. Mutable Arrays
 
-.large[
+.big[
 ```javascript
 var x = ['foo', 'bar'];
 
-x.push('baz'); // modifies the array.
+x.push('baz'); // modifies the array
 
 x
 => ['foo', 'bar', 'baz']
@@ -356,22 +417,54 @@ x
 
 ---
 
-# CLJS: Immutable list
+.with-small-margins[
+### ClojureScript: Immutable Lists
+]
 
+.big[
 ```clojure
 (def my_vec '( 1 2 3 4 ))
 => #'user/my_vec
 
-(conj (pop my_vec) 11) ;; remove first el, add 11 to front
+;; remove first element
+;; add `11` to front
+(conj (pop my_vec) 11)
 => (11 2 3 4)
 
 my_vec
 => (1 2 3 4)
 ```
+]
 
 ---
 
+.with-small-margins[
+### Immutable Data Structures Beyond what I'm going to show you
+]
+
+.short[
++ "change your life" (Rich Hickey)
++ main reason most Clojurians say they love the language: "I came for the concurrency, and stayed for the immutability"
++ are easy to reason about &amp; vastly simplify your app
+  &#10142; ["Simplicity matters"](https://www.youtube.com/watch?v=rI8tNMsozo0)
++ implementation details e.g. here:  
+  &#10142; ["Understanding Clojure's Persistent Vectors, pt. 1"](http://hypirion.com/musings/understanding-persistent-vector-pt-1)  
+  &#10142; ["Functional Vectors, Maps and Sets in Julia"](https://github.com/strangeloop/StrangeLoop2013/blob/master/slides/sessions/Allaun-FunctionalVectorsMapsAndSetsInJulia.pdf) - [Zach Allaun](https://twitter.com/riotonthebay)
+]
+
+---
+
+# Immutable .blue[Persistent] Data Structures
++ persistence: has nothing to do with databases here
+
+---
+
+class: slide-without-slide-number
 background-image: url(images/linked_list.png)
+
+.small.below-slide-content[
+source: ["Functional Vectors, Maps and Sets in Julia"](https://github.com/strangeloop/StrangeLoop2013/blob/master/slides/sessions/Allaun-FunctionalVectorsMapsAndSetsInJulia.pdf) - [Zach Allaun](https://twitter.com/riotonthebay)
+]
 
 ???
 
@@ -380,19 +473,45 @@ background-image: url(images/linked_list.png)
 
 ---
 
+.with-small-margins[
+## Immutable .blue[Persistent] Data Structures
+]
++ work like git &ndash; `x` and `z` refer to the same shared sublist: `(2 3 4)`
++ since Clojure functions return only modified **copies** of their arguments, persistence helps creating these copies with **better performance**
+
+---
+
+.with-small-margins[
+## Immutable .blue[Persistent] Data Structures
+]
+
++ immutable data structures are slower than mutable ones, but thanks to clever implementations Clojure(Script)'s are usually only negligibly slower
++ when RAM was a _lot_ scarcer we had no alternative but to mutate our data structures
++ &#10142; Clojure's [transients](http://clojure.org/transients)
+
+---
+
+.with-small-margins[
 # Om
+]
 
 .short[
-+ even faster diffing:  
-  reference equality checks
-+ **TodoMVC** Benchmark:  
-  Om: 913 ms  
-  Backbone: 2,167 ms  
-
-  Edge case:  
-  Om: 105 ms  
-  Backbone: 4,200 ms
++ React: virtual DOM is a JavaScript object
++ Om: virtual DOM is an immutable persistent data structure
++ Om: even **faster diffing** of the virtual DOM:  
+  thanks to CLojureScript's immutable data structures, Om's modified diffing algorithm doesn't have to traverse the entire virtual DOM. Reference equality checks at the top of a branch suffice to see whether anything's changed below - this is not possible with JS's mutable data structures.
 ]
+
+---
+
+.with-small-margins[
+### TodoMVC Rendering Performance
+]
+
+![React -vs- Om](images/react_vs_om.png)
+.small[source: [http://vuejs.org/perf](http://vuejs.org/perf)]
+
++ You will find JS MVCs faster than Om - aiming for **simplicity** with reasonable performance. So far even generally superior performance :)
 
 ---
 
@@ -410,7 +529,7 @@ background-image: url(images/linked_list.png)
 + entire UI is built from one data structure - **global app state**
 + keep a **history** of app states
 + **stuctural sharing** (persistent data structures) ensures low memory consumption
-+ feed flipped arguments to React's diffing algorithm
++ feed **flipped arguments** to React's diffing algorithm to update the DOM
 
 ???
 Undo - schwer aus 2 Gründen:
@@ -420,7 +539,7 @@ Undo - schwer aus 2 Gründen:
 
 ---
 
-### Undo in 15 LoC
+## Undo in 15 Lines of Code
 
 ```clojure
 (def app-history (atom [@app-state]))
@@ -440,14 +559,24 @@ Undo - schwer aus 2 Gründen:
       (reset! app-state (last @app-history)))))
 ```
 
+.small[
+source: ["Time Travel"](https://swannodette.github.io/2013/12/31/time-travel/) - [David Nolen](https://twitter.com/swannodette)
+]
+
 ---
 
+.with-small-margins[
 # Summary
+]
 
+.short[
 1. **Virtual DOM** (React)
    - precise
    - re-render everything
 2. **immutable** persistent data structures (Om)
+   - even faster diffing
+   - I've only shown you a small part of why they're awesome - digg deeper and check out their **further benefits**!
+]
 
 ???
 + aim was to whet your appetite
@@ -457,25 +586,28 @@ Undo - schwer aus 2 Gründen:
 ---
 
 .with-small-margins[
-# Coda: Omingard
+### Coda
+## I built a Card Game with Om
 ]
 
 <br>
 
-<!-- <iframe width="100%" height="450" src="http://localhost:8888"></iframe> -->
-
 <iframe width="100%" src="//www.youtube.com/embed/r0u1IBr1apU" frameborder="0" allowfullscreen></iframe>
 
-+ [http://github.com/paulwittmann/omingard](http://github.com/paulwittmann/omingard)
+[http://github.com/paulwittmann/omingard](http://github.com/paulwittmann/omingard)
 
 ---
 
-# Coda: Paths
-.big[
-1. React & Om as interesting **JS MVCs**
-2. Om as a gate opener into **Clojure**  
-   -> .blue[upcoming Railslove blog post]
+.with-small-margins[
+### Coda
+# Two Perspectives
 ]
+
+1. Today: React & Om as interesting **"JS MVCs"**
+2. My personal motivation:  
+   Om as a **gate opener into Clojure**  
+   &#10142; slides: [Alien Technology: Ideas from the Clojureverse](https://github.com/paulwittmann/alien-technology-9elements)  
+   &#10142; .green[upcoming Railslove **blog post**] - stay tuned [@wakkahari](https://twitter.com/wakkahari) &amp; [railslove.com/stories](http://railslove.com/stories)
 
 ???
 1.: today
@@ -483,5 +615,10 @@ Undo - schwer aus 2 Gründen:
 
 ---
 
-# Slides
-http://tinyurl.com/om-cgnjs
+# Links
+
+### React
++ [React vs. Ember - Alex Matchneer](https://docs.google.com/presentation/d/1afMLTCpRxhJpurQ97VBHCZkLbR1TEsRnd3yyxuSQ5YY/preview)
+
+### Om & ClojureScript
++ [JavaScript Jabber with David Nolen](http://javascriptjabber.com/107-jsj-clojurescript-om-with-david-nolen)
