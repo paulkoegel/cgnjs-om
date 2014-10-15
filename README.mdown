@@ -1,3 +1,5 @@
+[Slides](https://paulwittmann.github.io/cgnjs-om)
+
 # React & Om
 ## [Cologne.js - 2014-10-14](http://colognejs.de/talks/#2014-10-14)
 
