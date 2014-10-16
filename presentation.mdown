@@ -341,6 +341,18 @@ Diff would take 17min for 10.000 DOM nodes on 1Ghz machine with O(n³) (cf. Vjeu
 
 ---
 
+# Om
+
+.short[
++ December 2013 blog post introducing Om:  
+  ["The Future of JavaScript MVC Frameworks"](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs) &ndash; [David Nolen](https://twiter.com/swannodette)
++ Examples for Om in production use:
+  - [Circle CI's frontend](https://github.com/circleci/frontend)
+  - web frontend of [sayHEY](https://www.sayhey.de) messenger &ndash; built by [Bevuta](http://www.bevuta.com) from Cologne
+]
+
+---
+
 .with-small-margins[
 # Om
 ### "A ClojureScript .blue[interface] to Facebook's React"
@@ -349,13 +361,13 @@ Diff would take 17min for 10.000 DOM nodes on 1Ghz machine with O(n³) (cf. Vjeu
 .short[
 + Om is built on top of React &ndash; to use Om you always have to load React
 + Om is written in ClojureScript &ndash; you cannot use Om without ClojureScript
-+ Blog post introducing Om:  
-  ["The Future of JavaScript MVC Frameworks"](https://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs) &ndash; [David Nolen](https://twiter.com/swannodette), December 2013
 ]
 
 ---
 
-# More than an interface / Differences to React
+.with-small-margins[###### More than an interface
+## Differences to React
+]
 + **immutable** data structures
 + **global** app state (like a database)
 
@@ -511,7 +523,64 @@ source: ["Functional Vectors, Maps and Sets in Julia"](https://github.com/strang
 ![React -vs- Om](images/react_vs_om.png)
 .small[source: [http://vuejs.org/perf](http://vuejs.org/perf)]
 
-+ You will find JS MVCs faster than Om - aiming for **simplicity** with reasonable performance. So far even generally superior performance :)
+.small[
++ You will find JS MVCs faster than Om, but Om's aiming most of all for **simplicity** - with reasonable performance. So far it has generally superior performance out of the box :)
+]
+
+---
+
+.with-small-margins[
+### Alternative ClojureScript Libraries Built on Top of React
+]
+
+.extra-short[
++ [Quiescent](https://github.com/levand/quiescent) &ndash; A lightweight ClojureScript abstraction over ReactJS
++ [Reagent](https://github.com/holmsand/reagent) &ndash; "A minimalistic ClojureScript interface to React.js"
++ David Nolen [emphasizes](http://vimeo.com/100574226) that Om is work-in-progress and is inviting people to look at other solutions for inspiration.  
+  &#10142; [Om Experience Reports](http://pchristensen.com/blog/articles/sfcljs-august-meetup-om) from the San Francisco ClojureScript User Group
+]
+
+---
+
+.with-small-margins[
+## Immutability in JavaScript
+]
+
+.short[
++ David Nolen's [Mori](https://github.com/swannodette/mori)
++ Facebook's [Immutable JS](https://github.com/facebook/immutable-js) (less mature than Mori)
++ [Morearty.js](https://github.com/Tvaroh/moreartyjs) - "a thin layer on top of React providing better state management facilities in the manner of Om but written in pure JavaScript"
++ [Omniscient.js](https://omniscientjs.github.io) - "pairs the simplicity of Quiescent with the cursors of Om, for js, using Immutable.js"
+]
+
+---
+
+.with-small-margins[
+## Immutability in JavaScript
+]
+
+.short[
++ React could be as fast as Om if it used immutable data structures (IDS) for diffing
++ other **simplicity gains** of IDS would be lost, though, unless you write your business logic with IDS as well
++ IDS is something you want to have at a **language level**, otherwise someone could forget the special ceremony for using IDS somewhere in your JS code
+]
+
+---
+    
+"There so many new libs coming out for #javascript that are based on things from #clojure or #clojurescript Why can't we just use those?!?"  
+.small-close[
+[https://twitter.com/jakecraige/status/520995917810257920)](https://twitter.com/jakecraige/status/520995917810257920)
+]
+
++ Clojure & ClojureScript offer other **simplifications** beyond immutability and beat "JavaScript everywhere" 
+
+---
+
+"Node.js has so many gaping holes that are up to the libraries to fix, but since it’s chained to the language we call JavaScript, it’s [...] on its own to address these things at the language level.  
+It’s an awkward situation where the language doesn’t give you much, but you can’t change the language so you keep doing `npm install band-aid`."  
+.small[
+["The emperor’s new clothes were built with Node.js"](http://notes.ericjiang.com/posts/751) - [Eric Jiang](https://twitter.com/ericrjiang)
+]
 
 ---
 
@@ -678,6 +747,7 @@ source: ["Time Travel"](https://swannodette.github.io/2013/12/31/time-travel/) &
 ]
 
 .extra-short[
++ [Om Experience Reports](http://pchristensen.com/blog/articles/sfcljs-august-meetup-om) from the San Francisco ClojureScript User Group
 + [Goya](https://jackschaedler.github.io/goya) &ndash; Om undo demo app developed by an Ableton engineer
 + ["Decomposing web app development"](http://tonsky.me/blog/decomposing-web-app-development/) &ndash; [Nikita Prokopov](https://twitter.com/tonsky); about Datascript: mini-Datomic in JavaScript
 ]
