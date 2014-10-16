@@ -247,8 +247,8 @@ left: React, right: Backbone
 ---
 
 .short[
-+ **Backbone:** `onkeyup` the entire view gets rerendered although only the text at the beginning is changed &#10142; the mathematical formulas are flickering
-+ **React:** the same view (= React component) gets rerendered, but only to the **virtual DOM**, which is then **diffed** with the previous virtual DOM. From the diff, a minimal changeset is built and applied to the actual DOM - the actual DOM elements containing the formulas are never touched, even though they're part of the React component whose data gets updated `onkeyup`.
++ **Backbone:** `onkeyup` the entire view gets re-rendered although only the text at the beginning is changed &#10142; the mathematical formulas are flickering
++ **React:** the same view (= React component) gets re-rendered, but only to the **virtual DOM**, which is then **diffed** with the previous virtual DOM. From the diff, a minimal changeset is built and applied to the actual DOM - the actual DOM elements containing the formulas are never touched, even though they're part of the React component whose data gets updated `onkeyup`.
 ]
 
 ---
